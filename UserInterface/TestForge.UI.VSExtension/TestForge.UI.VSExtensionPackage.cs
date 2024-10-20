@@ -24,8 +24,8 @@ namespace TestForge.UI.VSExtension
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(TestForge.UI.VSExtensionPackage.PackageGuidString)]
-    public sealed class TestForge.UI.VSExtensionPackage : AsyncPackage
+    [Guid(TestForge.UI.VSExtension.VSExtensionPackage.PackageGuidString)]
+    public sealed class VSExtensionPackage : AsyncPackage
     {
          /// <summary>
         /// TestForge.UI.VSExtensionPackage GUID string.
