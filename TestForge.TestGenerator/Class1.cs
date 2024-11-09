@@ -1,7 +1,5 @@
-﻿namespace TestForge.TestGenerator
-{
-    public class Class1
-    {
+﻿namespace TestForge.TestGenerator;
 
-    }
+public class Class1
+{
 }

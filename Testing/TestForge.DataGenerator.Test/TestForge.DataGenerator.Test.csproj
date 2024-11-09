@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\TestForge.DataGenerator\TestForge.DataGenerator.csproj" />
+  </ItemGroup>
+
 </Project>
