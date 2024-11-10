@@ -1,23 +1,23 @@
-﻿namespace TestForge.DataGenerator.BuiltinGenerators;
+﻿using System.Text;
 
-public class IntGenerator : IGenerator<int>
+namespace TestForge.DataGenerator.BuiltinGenerators;
+
+public class BoolGenerator : IGenerator<bool>
 {
     GeneratorContext _context;
-    int? _minValue;
-    int? _maxValue;
-    public IntGenerator(GeneratorContext context, int? minValue = null, int? maxValue = null)
+
+    public BoolGenerator(GeneratorContext context)
     {
         _context = context;
-        _minValue = minValue;
-        _maxValue = maxValue;  
     }
 
 
-    public virtual int Generate
+    public virtual bool Generate
     {
         get
         {
-            return _context.Random.Next(_minValue ?? int.MinValue, _maxValue ?? int.MaxValue);
+            bool nextBool = _context.Random.Next(1) == 1;
+            return nextBool;
         }
     }
 
@@ -30,9 +30,9 @@ public class IntGenerator : IGenerator<int>
     }
 
 
-    public List<int> GenerateMany(int count)
+    public List<bool> GenerateMany(int count)
     {
-        List<int> result = new List<int>();
+        List<bool> result = new List<bool>();
         for (int i = 0; i < count; i++)
         {
             result.Add(Generate);

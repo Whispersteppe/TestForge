@@ -2,12 +2,12 @@
 
 public interface IGenerator
 {
-    public T GenerateMany<T>(int count);
+    public List<object> GenerateMany(int count);
     public object Generate { get; }
 }
 
 public interface IGenerator<T> : IGenerator
 {
-    public T GenerateMany(int count);
+    public List<T> GenerateMany(int count);
     new public T Generate { get; }
 }

@@ -1,23 +1,23 @@
 ﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
-public class DateGenerator : IGenerator<DateTime>
+public class ShortGenerator : IGenerator<short>
 {
     GeneratorContext _context;
-    DateTime? _minValue;
-    DateTime? _maxValue;
-    public DateGenerator(GeneratorContext context, DateTime? minValue = null, DateTime? maxValue = null)
+    short? _minValue;
+    short? _maxValue;
+    public ShortGenerator(GeneratorContext context, short? minValue = null, short? maxValue = null)
     {
         _context = context;
         _minValue = minValue;
-        _maxValue = maxValue;
+        _maxValue = maxValue;  
     }
 
 
-    public virtual DateTime Generate
+    public virtual short Generate
     {
         get
         {
-            return new DateTime(_context.Random.NextInt64((_minValue ?? DateTime.MinValue).Ticks, (_maxValue ?? DateTime.MaxValue).Ticks));
+            return (short)_context.Random.Next(_minValue ?? short.MinValue, _maxValue ?? short.MaxValue);
         }
     }
 
@@ -30,9 +30,9 @@ public class DateGenerator : IGenerator<DateTime>
     }
 
 
-    public List<DateTime> GenerateMany(int count)
+    public List<short> GenerateMany(int count)
     {
-        List<DateTime> result = new List<DateTime>();
+        List<short> result = new List<short>();
         for (int i = 0; i < count; i++)
         {
             result.Add(Generate);

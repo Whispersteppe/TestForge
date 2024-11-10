@@ -1,23 +1,23 @@
 ﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
-public class DateGenerator : IGenerator<DateTime>
+public class UInt16Generator : IGenerator<UInt16>
 {
     GeneratorContext _context;
-    DateTime? _minValue;
-    DateTime? _maxValue;
-    public DateGenerator(GeneratorContext context, DateTime? minValue = null, DateTime? maxValue = null)
+    UInt16? _minValue;
+    UInt16? _maxValue;
+    public UInt16Generator(GeneratorContext context, UInt16? minValue = null, UInt16? maxValue = null)
     {
         _context = context;
         _minValue = minValue;
-        _maxValue = maxValue;
+        _maxValue = maxValue;  
     }
 
 
-    public virtual DateTime Generate
+    public virtual UInt16 Generate
     {
         get
         {
-            return new DateTime(_context.Random.NextInt64((_minValue ?? DateTime.MinValue).Ticks, (_maxValue ?? DateTime.MaxValue).Ticks));
+            return Convert.ToUInt16( _context.Random.Next(Convert.ToInt32(_minValue ?? UInt16.MinValue), Convert.ToInt32(_maxValue ?? UInt16.MaxValue)));
         }
     }
 
@@ -30,9 +30,9 @@ public class DateGenerator : IGenerator<DateTime>
     }
 
 
-    public List<DateTime> GenerateMany(int count)
+    public List<UInt16> GenerateMany(int count)
     {
-        List<DateTime> result = new List<DateTime>();
+        List<UInt16> result = new List<UInt16>();
         for (int i = 0; i < count; i++)
         {
             result.Add(Generate);

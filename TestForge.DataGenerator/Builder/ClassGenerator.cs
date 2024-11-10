@@ -26,11 +26,6 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
 
     #region Builder
 
-    public ClassGenerator<T> Build()
-    {
-        return this;
-    }
-
     public ClassGenerator<T> AddConstructor(Func<GeneratorContext, T> constructorFunction)
     {
         _constructorFunction = constructorFunction;
@@ -71,14 +66,24 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
 
     #endregion
 
-    public T GenerateMany(int count)
+    public List<T> GenerateMany(int count)
     {
-        throw new NotImplementedException();
+        List<T> result = new List<T>();
+        for (int i = 0; i < count; i++)
+        {
+            result.Add(Generate);
+        }
+        return result;
     }
 
-    public T1 GenerateMany<T1>(int count)
+    List<object> IGenerator.GenerateMany(int count)
     {
-        throw new NotImplementedException();
+        List<object> result = new List<object>();
+        for (int i = 0; i < count; i++)
+        {
+            result.Add(Generate);
+        }
+        return result;
     }
 
     public T Generate 
