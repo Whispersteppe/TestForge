@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TestForge.DataGenerator.Builder;
+namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class ClassGenerator<T> : IGenerator<T> where T : class
 {
@@ -35,33 +35,34 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
 
     public T Generate(GeneratorContext context)
     {
-            T instance;
-            if (_constructorFunction != null)
-            {
-                instance = _constructorFunction.Invoke(context);
-            }
-            else
-            {
-                instance = Activator.CreateInstance(typeof(T)) as T;
-            }
+        GeneratorContext childContext = context.SpawnChildContext();
 
-            foreach (var property in _propertyGenerators)
-            {
-                //  find the property
-                PropertyInfo propInfo = typeof(T).GetProperty(property.PropertyName);
-                if (propInfo != null)
-                {
-                    propInfo.SetValue(instance, property.GetValue(context));
-                }
-            }
+        T instance;
+        if (_constructorFunction != null)
+        {
+            instance = _constructorFunction.Invoke(childContext);
+        }
+        else
+        {
+            instance = Activator.CreateInstance(typeof(T)) as T;
+        }
 
-            return instance;
-        
+        foreach (var property in _propertyGenerators)
+        {
+            //  find the property
+            PropertyInfo propInfo = typeof(T).GetProperty(property.PropertyName);
+            if (propInfo != null)
+            {
+                propInfo.SetValue(instance, property.GetValue(childContext));
+            }
+        }
+
+        return instance;
     }
 
     object IGenerator.Generate(GeneratorContext context)
     {
-            return Generate(context);
+        return Generate(context);
     }
     /*
      * tree of stuff on the context

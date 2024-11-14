@@ -1,4 +1,4 @@
-﻿namespace TestForge.DataGenerator.Builder;
+﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class PropertyGenerator
 {

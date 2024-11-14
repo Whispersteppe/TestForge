@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using TestForge.DataGenerator.Builder;
+using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
 namespace TestForge.DataGenerator.Test;
