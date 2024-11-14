@@ -2,40 +2,32 @@
 
 public class ListSelectionGenerator<T> : IGenerator<T>
 {
-    GeneratorContext _context;
     List<T> _selection;
-    public ListSelectionGenerator(GeneratorContext context,params T[] items)
+    public ListSelectionGenerator(params T[] items)
     {
-        _context = context;
         _selection = new List<T>(items);
     }
 
 
-    public virtual T Generate
+    public virtual T Generate(GeneratorContext context)
     {
-        get
-        {
-            return _context.Random.GetItems<T>(_selection.ToArray(), 1)[0];
-        }
+            return context.Random.GetItems<T>(_selection.ToArray(), 1)[0];
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
 
 
-    public List<T> GenerateMany(int count)
+    public List<T> GenerateMany(GeneratorContext context, int count)
     {
-        return _context.Random.GetItems<T>(_selection.ToArray(), count).ToList();
+        return context.Random.GetItems<T>(_selection.ToArray(), count).ToList();
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
-        var items = _context.Random.GetItems<T>(_selection.ToArray(), count).ToList();
+        var items = context.Random.GetItems<T>(_selection.ToArray(), count).ToList();
 
         List<object> result = new List<object>();
 

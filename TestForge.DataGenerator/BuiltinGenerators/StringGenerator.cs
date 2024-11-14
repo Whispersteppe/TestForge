@@ -4,14 +4,12 @@ namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class StringGenerator : IGenerator<string>
 {
-    GeneratorContext _context;
     int _minLength;
     int _maxLength;
     string _validCharSet;
 
-    public StringGenerator(GeneratorContext context, int minLength = 1, int maxLength = 25, string validCharSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    public StringGenerator(int minLength = 1, int maxLength = 25, string validCharSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     {
-        _context = context;
         _minLength = minLength;
         _maxLength = maxLength;
         _validCharSet = validCharSet;
@@ -22,48 +20,44 @@ public class StringGenerator : IGenerator<string>
     }
 
 
-    public virtual string Generate
+    public virtual string Generate(GeneratorContext context)
     {
-        get
-        {
-            int targetLength = _context.Random.Next(_minLength, _maxLength);
+            int targetLength = context.Random.Next(_minLength, _maxLength);
             StringBuilder stringBuilder = new StringBuilder();
             for(int i = 0;i < targetLength;i++)
             {
-                char nextChar = _validCharSet[_context.Random.Next(_validCharSet.Length)];
+                char nextChar = _validCharSet[context.Random.Next(_validCharSet.Length)];
                 stringBuilder.Append(nextChar);
             }
 
             return stringBuilder.ToString();
 
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
+        
     }
 
 
-    public List<string> GenerateMany(int count)
+    public List<string> GenerateMany(GeneratorContext context, int count)
     {
         List<string> result = new List<string>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

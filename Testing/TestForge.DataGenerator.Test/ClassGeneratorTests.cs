@@ -16,7 +16,7 @@ public class ClassGeneratorTests : TestBase
     public void SimpleClassbuilderTest()
     {
         GeneratorContext context = new GeneratorContext();
-        var classGenerator = CreateGenerator(context);
+        var classGenerator = CreateGeneratorBuilder(context).Build();
 
         var generatedData = classGenerator.Generate;
 
@@ -27,8 +27,9 @@ public class ClassGeneratorTests : TestBase
     public void SimpleClassbuilderWitConstructorTest()
     {
         GeneratorContext context = new GeneratorContext();
-        var classGenerator = CreateGenerator(context);
-        classGenerator.AddConstructor(x => new TestClass());
+        var classGeneratorBuilder = CreateGeneratorBuilder(context);
+        classGeneratorBuilder.AddConstructor(x => new TestClass());
+        var classGenerator = classGeneratorBuilder.Build();
 
         var generatedData = classGenerator.Generate;
 
@@ -39,15 +40,15 @@ public class ClassGeneratorTests : TestBase
     public void MultipleItemsClassbuilderTest()
     {
         GeneratorContext context = new GeneratorContext();
-        var classGenerator = CreateGenerator(context);
+        var classGenerator = CreateGeneratorBuilder(context).Build();
 
-        var generatedData = classGenerator.GenerateMany(5);
+        var generatedData = classGenerator.GenerateMany(context, 5);
 
         WriteObject(generatedData);
 
         IGenerator generator2 = classGenerator;
 
-        var generatedData2 = generator2.GenerateMany(5);
+        var generatedData2 = generator2.GenerateMany(context, 5);
         var singleData = generator2.Generate;
     }
 
@@ -61,11 +62,11 @@ public class ClassGeneratorTests : TestBase
         GeneratorContext context1 = new GeneratorContext(seed);
         GeneratorContext context2 = new GeneratorContext(seed);
 
-        ClassGenerator<TestClass> generator1 = CreateGenerator(context1);
-        ClassGenerator<TestClass> generator2 = CreateGenerator(context2);
+        ClassGenerator<TestClass> generator1 = CreateGeneratorBuilder(context1).Build();
+        ClassGenerator<TestClass> generator2 = CreateGeneratorBuilder(context2).Build();
 
-        var generatedData1 = generator1.GenerateMany(5);
-        var generatedData2 = generator2.GenerateMany(5);
+        var generatedData1 = generator1.GenerateMany(context1, 5);
+        var generatedData2 = generator2.GenerateMany(context2, 5);
 
         WriteObject(generatedData1);
         WriteObject(generatedData2);
@@ -77,7 +78,7 @@ public class ClassGeneratorTests : TestBase
 
     }
 
-    private ClassGenerator<TestClass> CreateGenerator(GeneratorContext context)
+    private ClassGeneratorBuilder<TestClass> CreateGeneratorBuilder(GeneratorContext context)
     {
         var classGenerator = context.Build<TestClass>()
             .Property(x => x.FieldString, "string")

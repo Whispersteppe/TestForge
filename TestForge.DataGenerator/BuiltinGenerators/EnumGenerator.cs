@@ -2,11 +2,9 @@
 
 public class EnumGenerator<T> : IGenerator<T> where T: Enum
 {
-    GeneratorContext _context;
     List<T> _selection;
-    public EnumGenerator(GeneratorContext context)
+    public EnumGenerator()
     {
-        _context = context;
         _selection = new List<T>();
 
         foreach (T item in Enum.GetValues(typeof(T)))
@@ -16,40 +14,38 @@ public class EnumGenerator<T> : IGenerator<T> where T: Enum
     }
 
 
-    public virtual T Generate
+    public virtual T Generate(GeneratorContext context)
     {
-        get
-        {
-            T selectedItem = _selection[_context.Random.Next(_selection.Count)];
+        
+            T selectedItem = _selection[context.Random.Next(_selection.Count)];
             return selectedItem;
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+        
+            return Generate(context);
+        
     }
 
 
-    public List<T> GenerateMany(int count)
+    public List<T> GenerateMany(GeneratorContext context, int count)
     {
         List<T> result = new List<T>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

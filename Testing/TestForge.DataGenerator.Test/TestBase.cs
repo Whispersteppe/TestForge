@@ -19,7 +19,13 @@ public class TestBase
 
     public void WriteObject(object o)
     {
-        var data = JsonConvert.SerializeObject(o, Formatting.Indented);
+        JsonSerializerSettings settings = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Formatting = Formatting.Indented
+        };
+
+        var data = JsonConvert.SerializeObject(o, settings);
         _output.WriteLine(data);
     }
 }

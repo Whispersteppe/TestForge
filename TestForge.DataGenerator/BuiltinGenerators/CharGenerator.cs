@@ -4,52 +4,44 @@ namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class CharGenerator : IGenerator<char>
 {
-    GeneratorContext _context;
     string _validCharSet;
 
-    public CharGenerator(GeneratorContext context, string validCharSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    public CharGenerator(string validCharSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     {
-        _context = context;
         _validCharSet = validCharSet;
 
         if (_validCharSet.Length == 0) throw new ArgumentException("validCharSet cannot be empty");
     }
 
 
-    public virtual char Generate
+    public virtual char Generate(GeneratorContext context)
     {
-        get
-        {
-            char nextChar = _validCharSet[_context.Random.Next(_validCharSet.Length)];
+            char nextChar = _validCharSet[context.Random.Next(_validCharSet.Length)];
             return nextChar;
-        }
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
 
 
-    public List<char> GenerateMany(int count)
+    public List<char> GenerateMany(GeneratorContext context, int count)
     {
         List<char> result = new List<char>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

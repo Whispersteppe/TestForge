@@ -2,50 +2,44 @@
 
 public class IntGenerator : IGenerator<int>
 {
-    GeneratorContext _context;
     int? _minValue;
     int? _maxValue;
-    public IntGenerator(GeneratorContext context, int? minValue = null, int? maxValue = null)
+    public IntGenerator(int? minValue = null, int? maxValue = null)
     {
-        _context = context;
         _minValue = minValue;
         _maxValue = maxValue;  
     }
 
 
-    public virtual int Generate
+    public virtual int Generate(GeneratorContext context)
     {
-        get
-        {
-            return _context.Random.Next(_minValue ?? int.MinValue, _maxValue ?? int.MaxValue);
-        }
+            return context.Random.Next(_minValue ?? int.MinValue, _maxValue ?? int.MaxValue);
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
+        
     }
 
 
-    public List<int> GenerateMany(int count)
+    public List<int> GenerateMany(GeneratorContext context, int count)
     {
         List<int> result = new List<int>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

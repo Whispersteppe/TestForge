@@ -4,48 +4,41 @@ namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class BoolGenerator : IGenerator<bool>
 {
-    GeneratorContext _context;
 
-    public BoolGenerator(GeneratorContext context)
+    public BoolGenerator()
     {
-        _context = context;
     }
 
 
-    public virtual bool Generate
+    public virtual bool Generate(GeneratorContext context)
     {
-        get
-        {
-            bool nextBool = _context.Random.Next(1) == 1;
+            bool nextBool = context.Random.Next(1) == 1;
             return nextBool;
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
 
 
-    public List<bool> GenerateMany(int count)
+    public List<bool> GenerateMany(GeneratorContext context, int count)
     {
         List<bool> result = new List<bool>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

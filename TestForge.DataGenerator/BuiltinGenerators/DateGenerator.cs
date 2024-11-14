@@ -2,50 +2,42 @@
 
 public class DateGenerator : IGenerator<DateTime>
 {
-    GeneratorContext _context;
     DateTime? _minValue;
     DateTime? _maxValue;
-    public DateGenerator(GeneratorContext context, DateTime? minValue = null, DateTime? maxValue = null)
+    public DateGenerator(DateTime? minValue = null, DateTime? maxValue = null)
     {
-        _context = context;
         _minValue = minValue;
         _maxValue = maxValue;
     }
 
 
-    public virtual DateTime Generate
+    public virtual DateTime Generate(GeneratorContext context)
     {
-        get
-        {
-            return new DateTime(_context.Random.NextInt64((_minValue ?? DateTime.MinValue).Ticks, (_maxValue ?? DateTime.MaxValue).Ticks));
-        }
+            return new DateTime(context.Random.NextInt64((_minValue ?? DateTime.MinValue).Ticks, (_maxValue ?? DateTime.MaxValue).Ticks));
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
 
 
-    public List<DateTime> GenerateMany(int count)
+    public List<DateTime> GenerateMany(GeneratorContext context, int count)
     {
         List<DateTime> result = new List<DateTime>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

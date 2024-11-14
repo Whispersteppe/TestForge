@@ -1,99 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace TestForge.DataGenerator.Builder;
-
-
 
 public class ClassGenerator<T> : IGenerator<T> where T : class
 {
 
-    GeneratorContext _context;
-    Func<GeneratorContext, T>? _constructorFunction;
-    List<PropertyGenerator> _propertyGenerators;
+    internal Func<GeneratorContext, T>? _constructorFunction;
+    internal List<PropertyGenerator> _propertyGenerators;
 
-    public ClassGenerator(GeneratorContext context)
+    public ClassGenerator()
     {
-        _context = context;
         _propertyGenerators = new List<PropertyGenerator>();
     }
 
-    #region Builder
-
-    public ClassGenerator<T> AddConstructor(Func<GeneratorContext, T> constructorFunction)
-    {
-        _constructorFunction = constructorFunction;
-        return this;
-    }
-
-    public ClassGenerator<T> Property<TProperty>(Expression<Func<T, TProperty>> property, Func<GeneratorContext, IGenerator> generator)
-    {
-        MemberExpression member = property.Body as MemberExpression;
-        string propertyName = member.Member.Name;
-
-        var inGen = generator.Invoke(_context);
-
-        _propertyGenerators.Add(new PropertyGeneratorIGenerator<TProperty>(_context, propertyName) { Generator = inGen });
-
-        return this;
-    }
-
-    public ClassGenerator<T> Property<TProperty>(Expression<Func<T, TProperty>> property, TProperty value)
-    {
-        MemberExpression member = property.Body as MemberExpression;
-        string propertyName = member.Member.Name;
-
-        _propertyGenerators.Add(new PropertyGeneratorFixedValue<TProperty>(_context, propertyName) { Value = value });
-
-        return this;
-    }
-
-    public ClassGenerator<T> Property<TProperty>(Expression<Func<T, TProperty>> property, Func<GeneratorContext, TProperty> generatorFunction)
-    {
-        MemberExpression member = property.Body as MemberExpression;
-        string propertyName = member.Member.Name;
-
-        _propertyGenerators.Add(new PropertyGeneratorGeneratorFunction<TProperty>(_context, propertyName) { FunctionGenerator = generatorFunction });
-
-        return this;
-    }
-
-    #endregion
-
-    public List<T> GenerateMany(int count)
+    public List<T> GenerateMany(GeneratorContext context, int count)
     {
         List<T> result = new List<T>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    public T Generate 
+    public T Generate(GeneratorContext context)
     {
-        get
-        {
             T instance;
             if (_constructorFunction != null)
             {
-                instance = _constructorFunction.Invoke(_context);
+                instance = _constructorFunction.Invoke(context);
             }
             else
             {
@@ -106,20 +51,17 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
                 PropertyInfo propInfo = typeof(T).GetProperty(property.PropertyName);
                 if (propInfo != null)
                 {
-                    propInfo.SetValue(instance, property.GetValue());
+                    propInfo.SetValue(instance, property.GetValue(context));
                 }
             }
 
             return instance;
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
     /*
      * tree of stuff on the context

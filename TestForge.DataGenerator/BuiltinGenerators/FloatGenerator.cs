@@ -4,56 +4,51 @@ namespace TestForge.DataGenerator.BuiltinGenerators;
 
 public class FloatGenerator : IGenerator<float>
 {
-    GeneratorContext _context;
     float? _minValue;
     float? _maxValue;
-    public FloatGenerator(GeneratorContext context, float? minValue = null, float? maxValue = null)
+    public FloatGenerator(float? minValue = null, float? maxValue = null)
     {
-        _context = context;
         _minValue = minValue;
         _maxValue = maxValue;
     }
 
 
-    public virtual float Generate
+    public virtual float Generate(GeneratorContext context)
     {
-        get
-        {
-            var randomFloat = _context.Random.NextSingle();
+            var randomFloat = context.Random.NextSingle();
 
             var fullRangeFloat = randomFloat * (_maxValue.GetValueOrDefault(1) - _minValue.GetValueOrDefault(0)) + _minValue.GetValueOrDefault(0);
 
             //  now map this over the range.
             return fullRangeFloat;
 
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
         {
-            return Generate;
+            return Generate(context);
         }
     }
 
 
-    public List<float> GenerateMany(int count)
+    public List<float> GenerateMany(GeneratorContext context, int count)
     {
         List<float> result = new List<float>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

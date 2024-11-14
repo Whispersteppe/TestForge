@@ -3,17 +3,24 @@ using TestForge.DataGenerator.BuiltinGenerators;
 
 namespace TestForge.DataGenerator;
 
+public class NamedGenerators : Dictionary<string, IGenerator>
+{
+}
+
+public class ContextData : Dictionary<string, object>
+{
+}
+
 public class GeneratorContext
 {
     private readonly Random _random;
     public Random Random => _random;
     BuiltinGeneratorSet _builtin;
-    Dictionary<string, IGenerator> _namedGenerators = new Dictionary<string, IGenerator>();
-    Dictionary<string, object> _contextData = new Dictionary<string, object>();
-
+    public NamedGenerators Generators { get; private set; } = new NamedGenerators();
+    public ContextData Data { get; private set; } = new ContextData();
 
     public GeneratorContext() 
-        : this((new System.Random().Next()))
+        : this(new System.Random().Next())
     { 
     }
 
@@ -23,9 +30,9 @@ public class GeneratorContext
         _builtin = new BuiltinGeneratorSet(this);
     }
 
-    public ClassGenerator<T> Build<T>() where T: class
+    public ClassGeneratorBuilder<T> Build<T>() where T: class
     {
-        return new ClassGenerator<T>(this);
+        return new ClassGeneratorBuilder<T>(this);
     }
 
     public BuiltinGeneratorSet Builtin
@@ -34,30 +41,5 @@ public class GeneratorContext
         {
             return _builtin;
         }
-    }
-
-    public IGenerator GetNamedGenerator(string name)
-    {
-        return _namedGenerators[name];
-    }
-
-    public void SetNamedGenerator(string name, IGenerator generator)
-    {
-        _namedGenerators[name] = generator;
-    }
-
-    public IGenerator GetNamedGenerator(Type type)
-    {
-        throw new NotImplementedException();
-    }
-
-    public object GetData(string name)
-    {
-        return _contextData[name];
-    }
-
-    public void SetData(string name, object data)
-    { 
-        _contextData[name] = data;
     }
 }

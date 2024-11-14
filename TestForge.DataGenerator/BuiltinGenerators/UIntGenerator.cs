@@ -2,50 +2,42 @@
 
 public class UIntGenerator : IGenerator<uint>
 {
-    GeneratorContext _context;
     uint? _minValue;
     uint? _maxValue;
-    public UIntGenerator(GeneratorContext context, uint? minValue = null, uint? maxValue = null)
+    public UIntGenerator(uint? minValue = null, uint? maxValue = null)
     {
-        _context = context;
         _minValue = minValue;
         _maxValue = maxValue;  
     }
 
 
-    public virtual uint Generate
+    public virtual uint Generate(GeneratorContext context)
     {
-        get
-        {
-            return Convert.ToUInt32( _context.Random.NextInt64(Convert.ToInt64(_minValue ?? uint.MinValue), Convert.ToInt64(_maxValue ?? uint.MaxValue)));
-        }
+            return Convert.ToUInt32( context.Random.NextInt64(Convert.ToInt64(_minValue ?? uint.MinValue), Convert.ToInt64(_maxValue ?? uint.MaxValue)));
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
     }
 
 
-    public List<uint> GenerateMany(int count)
+    public List<uint> GenerateMany(GeneratorContext context, int count)
     {
         List<uint> result = new List<uint>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }

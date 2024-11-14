@@ -2,50 +2,44 @@
 
 public class GuidGenerator : IGenerator<Guid>
 {
-    GeneratorContext _context;
-    public GuidGenerator(GeneratorContext context)
+    public GuidGenerator()
     {
-        _context = context;
     }
 
 
-    public virtual Guid Generate
+    public virtual Guid Generate(GeneratorContext context)
     {
-        get
-        {
             byte[] bytes = new byte[16];
-            _context.Random.NextBytes(bytes);
+            context.Random.NextBytes(bytes);
             Guid newGuid = new Guid(bytes);
 
             return newGuid;
-        }
+        
     }
 
-    object IGenerator.Generate
+    object IGenerator.Generate(GeneratorContext context)
     {
-        get
-        {
-            return Generate;
-        }
+            return Generate(context);
+        
     }
 
 
-    public List<Guid> GenerateMany(int count)
+    public List<Guid> GenerateMany(GeneratorContext context, int count)
     {
         List<Guid> result = new List<Guid>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
 
-    List<object> IGenerator.GenerateMany(int count)
+    List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
         for (int i = 0; i < count; i++)
         {
-            result.Add(Generate);
+            result.Add(Generate(context));
         }
         return result;
     }
