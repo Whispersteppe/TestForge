@@ -2,6 +2,10 @@
 
 namespace TestForge.DataGenerator.BuiltinGenerators;
 
+/// <summary>
+/// generate a specific class instance
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class ClassGenerator<T> : IGenerator<T> where T : class
 {
 
@@ -13,6 +17,12 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
         _propertyGenerators = new List<PropertyGenerator>();
     }
 
+    /// <summary>
+    /// generate many class instances
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public List<T> GenerateMany(GeneratorContext context, int count)
     {
         List<T> result = new List<T>();
@@ -23,6 +33,12 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
         return result;
     }
 
+    /// <summary>
+    /// generate many class instances
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();
@@ -33,6 +49,11 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
         return result;
     }
 
+    /// <summary>
+    /// generate a class instance
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public T Generate(GeneratorContext context)
     {
         GeneratorContext childContext = context.SpawnChildContext();
@@ -60,6 +81,11 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
         return instance;
     }
 
+    /// <summary>
+    /// generate a class instances
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     object IGenerator.Generate(GeneratorContext context)
     {
         return Generate(context);

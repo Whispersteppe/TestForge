@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace TestForge.DataGenerator.Test;
 
+/// <summary>
+/// base functionality for all tests
+/// </summary>
 public class TestBase
 {
     ITestOutputHelper _output;
@@ -17,6 +15,10 @@ public class TestBase
         _output = output;
     }
 
+    /// <summary>
+    /// write out an object as a formatted json string
+    /// </summary>
+    /// <param name="o"></param>
     public void WriteObject(object o)
     {
         JsonSerializerSettings settings = new JsonSerializerSettings()

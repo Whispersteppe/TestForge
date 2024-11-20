@@ -2,6 +2,9 @@
 
 namespace TestForge.DataGenerator.BuiltinGenerators;
 
+/// <summary>
+/// generate string values
+/// </summary>
 public class StringGenerator : IGenerator<string>
 {
     int _minLength;
@@ -19,7 +22,11 @@ public class StringGenerator : IGenerator<string>
         if (_validCharSet.Length == 0) throw new ArgumentException("validCharSet cannot be empty");
     }
 
-
+    /// <summary>
+    /// generate a string value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public virtual string Generate(GeneratorContext context)
     {
             int targetLength = context.Random.Next(_minLength, _maxLength);
@@ -35,13 +42,23 @@ public class StringGenerator : IGenerator<string>
         
     }
 
+    /// <summary>
+    /// generate a string value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     object IGenerator.Generate(GeneratorContext context)
     {
             return Generate(context);
         
     }
 
-
+    /// <summary>
+    /// generate manu string values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public List<string> GenerateMany(GeneratorContext context, int count)
     {
         List<string> result = new List<string>();
@@ -52,6 +69,12 @@ public class StringGenerator : IGenerator<string>
         return result;
     }
 
+    /// <summary>
+    /// generate many string values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();

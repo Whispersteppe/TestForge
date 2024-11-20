@@ -1,5 +1,12 @@
 ﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
+/// <summary>
+/// property generators
+/// </summary>
+/// <remarks>
+/// for the different types of generators for a property we'll need to wrap the generators, values, inline code funcs, or whatever
+/// in something common so we don't have to have these gosh awful case blocks all over the place for the different generator types.
+/// </remarks>
 public class PropertyGenerator
 {
     public PropertyGenerator(string propertyName)
@@ -14,6 +21,10 @@ public class PropertyGenerator
     }
 }
 
+/// <summary>
+/// property generators for fixed values
+/// </summary>
+/// <typeparam name="TProperty"></typeparam>
 public class PropertyGeneratorFixedValue<TProperty> : PropertyGenerator
 {
     public PropertyGeneratorFixedValue(string propertyName) : base(propertyName)
@@ -27,6 +38,10 @@ public class PropertyGeneratorFixedValue<TProperty> : PropertyGenerator
     }
 }
 
+/// <summary>
+/// property generator for a generator
+/// </summary>
+/// <typeparam name="TProperty"></typeparam>
 public class PropertyGeneratorIGenerator<TProperty> : PropertyGenerator
 {
     public PropertyGeneratorIGenerator(string propertyName) : base(propertyName)
@@ -40,6 +55,10 @@ public class PropertyGeneratorIGenerator<TProperty> : PropertyGenerator
     }
 }
 
+/// <summary>
+/// property generator for inline function code
+/// </summary>
+/// <typeparam name="TProperty"></typeparam>
 public class PropertyGeneratorGeneratorFunction<TProperty> : PropertyGenerator
 {
     public PropertyGeneratorGeneratorFunction(string propertyName) : base(propertyName)

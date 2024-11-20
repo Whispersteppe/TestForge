@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestForge.DataGenerator.BuiltinGenerators;
+﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
 namespace TestForge.DataGenerator.Test;
 
+/// <summary>
+/// tests of the various generators
+/// </summary>
 public class GeneratorTests : TestBase
 {
     public GeneratorTests(ITestOutputHelper output) : base(output)

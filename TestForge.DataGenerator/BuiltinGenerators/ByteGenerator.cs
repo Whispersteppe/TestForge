@@ -1,5 +1,8 @@
 ﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
+/// <summary>
+/// generates bytes
+/// </summary>
 public class ByteGenerator : IGenerator<byte>
 {
     byte? _minValue;
@@ -10,18 +13,32 @@ public class ByteGenerator : IGenerator<byte>
         _maxValue = maxValue;  
     }
 
-
+    /// <summary>
+    /// generate a byte
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public virtual byte Generate(GeneratorContext context)
     {
             return (byte)context.Random.Next(_minValue ?? byte.MinValue, _maxValue ?? byte.MaxValue);
     }
 
+    /// <summary>
+    /// generate a byte
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     object IGenerator.Generate(GeneratorContext context)
     {
             return Generate(context);
     }
 
-
+    /// <summary>
+    /// generate many bytes
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public List<byte> GenerateMany(GeneratorContext context, int count)
     {
         List<byte> result = new List<byte>();
@@ -32,6 +49,12 @@ public class ByteGenerator : IGenerator<byte>
         return result;
     }
 
+    /// <summary>
+    /// generate many bytes
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();

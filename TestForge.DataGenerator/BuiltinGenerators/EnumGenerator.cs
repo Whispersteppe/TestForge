@@ -1,8 +1,13 @@
 ﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
+/// <summary>
+/// generates enums
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class EnumGenerator<T> : IGenerator<T> where T: Enum
 {
     List<T> _selection;
+
     public EnumGenerator()
     {
         _selection = new List<T>();
@@ -13,7 +18,11 @@ public class EnumGenerator<T> : IGenerator<T> where T: Enum
         }
     }
 
-
+    /// <summary>
+    /// generates an enum value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public virtual T Generate(GeneratorContext context)
     {
         
@@ -22,6 +31,11 @@ public class EnumGenerator<T> : IGenerator<T> where T: Enum
         
     }
 
+    /// <summary>
+    /// generates an enum value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     object IGenerator.Generate(GeneratorContext context)
     {
         
@@ -29,7 +43,12 @@ public class EnumGenerator<T> : IGenerator<T> where T: Enum
         
     }
 
-
+    /// <summary>
+    /// generates many enum values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public List<T> GenerateMany(GeneratorContext context, int count)
     {
         List<T> result = new List<T>();
@@ -40,6 +59,12 @@ public class EnumGenerator<T> : IGenerator<T> where T: Enum
         return result;
     }
 
+    /// <summary>
+    /// generates many enum values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();

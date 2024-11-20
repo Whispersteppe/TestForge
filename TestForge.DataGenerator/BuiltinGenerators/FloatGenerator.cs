@@ -1,7 +1,8 @@
-﻿using System;
+﻿namespace TestForge.DataGenerator.BuiltinGenerators;
 
-namespace TestForge.DataGenerator.BuiltinGenerators;
-
+/// <summary>
+/// generate float values
+/// </summary>
 public class FloatGenerator : IGenerator<float>
 {
     float? _minValue;
@@ -12,27 +13,37 @@ public class FloatGenerator : IGenerator<float>
         _maxValue = maxValue;
     }
 
-
+    /// <summary>
+    /// generate a float value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public virtual float Generate(GeneratorContext context)
     {
-            var randomFloat = context.Random.NextSingle();
+        var randomFloat = context.Random.NextSingle();
 
-            var fullRangeFloat = randomFloat * (_maxValue.GetValueOrDefault(1) - _minValue.GetValueOrDefault(0)) + _minValue.GetValueOrDefault(0);
+        var fullRangeFloat = randomFloat * (_maxValue.GetValueOrDefault(1) - _minValue.GetValueOrDefault(0)) + _minValue.GetValueOrDefault(0);
 
-            //  now map this over the range.
-            return fullRangeFloat;
-
-        
+        //  now map this over the range.
+        return fullRangeFloat;
     }
 
+    /// <summary>
+    /// generate a float value
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     object IGenerator.Generate(GeneratorContext context)
     {
-        {
-            return Generate(context);
-        }
+        return Generate(context);
     }
 
-
+    /// <summary>
+    /// generate many float values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public List<float> GenerateMany(GeneratorContext context, int count)
     {
         List<float> result = new List<float>();
@@ -43,6 +54,12 @@ public class FloatGenerator : IGenerator<float>
         return result;
     }
 
+    /// <summary>
+    /// generate many float values
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     List<object> IGenerator.GenerateMany(GeneratorContext context, int count)
     {
         List<object> result = new List<object>();

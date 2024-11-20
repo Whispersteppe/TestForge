@@ -3,14 +3,23 @@ using TestForge.DataGenerator.BuiltinGenerators;
 
 namespace TestForge.DataGenerator;
 
+/// <summary>
+/// a list of named generators
+/// </summary>
 public class NamedGenerators : Dictionary<string, IGenerator>
 {
 }
 
+/// <summary>
+/// a list of context data
+/// </summary>
 public class ContextData : Dictionary<string, object>
 {
 }
 
+/// <summary>
+/// the context of the generator
+/// </summary>
 public class GeneratorContext
 {
     private readonly Random _random;
@@ -33,6 +42,10 @@ public class GeneratorContext
         _builtin = new BuiltinGeneratorSet(this);
     }
 
+    /// <summary>
+    /// create a child context based on this context
+    /// </summary>
+    /// <returns></returns>
     public GeneratorContext SpawnChildContext()
     {
         GeneratorContext childContext = new GeneratorContext(Random.Next());
@@ -50,11 +63,19 @@ public class GeneratorContext
         return childContext;
     }
 
+    /// <summary>
+    /// creates a class builder
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public ClassGeneratorBuilder<T> Build<T>() where T: class
     {
         return new ClassGeneratorBuilder<T>(this);
     }
 
+    /// <summary>
+    /// access the builtin generators
+    /// </summary>
     public BuiltinGeneratorSet Builtin
     { 
         get

@@ -5,6 +5,9 @@ using Xunit.Abstractions;
 
 namespace TestForge.DataGenerator.Test;
 
+/// <summary>
+/// testing of the class generator
+/// </summary>
 public class ClassGeneratorTests : TestBase
 {
     public ClassGeneratorTests(ITestOutputHelper output) 
@@ -13,6 +16,9 @@ public class ClassGeneratorTests : TestBase
 
     }
 
+    /// <summary>
+    /// simple test.  build, generate, write.
+    /// </summary>
     [Fact]
     public void SimpleClassbuilderTest()
     {
@@ -24,6 +30,9 @@ public class ClassGeneratorTests : TestBase
         WriteObject(generatedData);
     }
 
+    /// <summary>
+    /// buld with a specific constructor
+    /// </summary>
     [Fact]
     public void SimpleClassbuilderWitConstructorTest()
     {
@@ -37,6 +46,9 @@ public class ClassGeneratorTests : TestBase
         WriteObject(generatedData);
     }
 
+    /// <summary>
+    /// generate multiple items
+    /// </summary>
     [Fact]
     public void MultipleItemsClassbuilderTest()
     {
@@ -53,7 +65,9 @@ public class ClassGeneratorTests : TestBase
         var singleData = generator2.Generate;
     }
 
-
+    /// <summary>
+    /// make sure we get the same set of items generated if we use the same seed.
+    /// </summary>
     [Fact]
     public void RepeatabilityTest()
     {
@@ -79,6 +93,11 @@ public class ClassGeneratorTests : TestBase
 
     }
 
+    /// <summary>
+    /// creates a generator builder to be used in the rest of the tests
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     private ClassGeneratorBuilder<TestClass> CreateGeneratorBuilder(GeneratorContext context)
     {
         var classGenerator = context.Build<TestClass>()
@@ -107,6 +126,9 @@ public class ClassGeneratorTests : TestBase
     }
 }
 
+/// <summary>
+/// test enum
+/// </summary>
 public enum MyEnum
 {
     Value1,
@@ -121,6 +143,10 @@ public enum MyEnum
     Value10, 
     Value11,
 }
+
+/// <summary>
+/// test class
+/// </summary>
 public class TestClass
 {
     public string FieldString { get; set; }

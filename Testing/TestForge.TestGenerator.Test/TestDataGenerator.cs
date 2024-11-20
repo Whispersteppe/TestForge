@@ -1,16 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestForge.DataGenerator;
 using TestForge.DataGenerator.XUnit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace TestForge.TestGenerator.Test;
 
+/// <summary>
+/// tests of the TestForgeDataEnumerator and TestForgeDataClassAttribute
+/// </summary>
 public class TestDataGenerator
 {
     ITestOutputHelper _output;
