@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForge.UI.Winform", "Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForge.UI.VSExtension", "UserInterface\TestForge.UI.VSExtension\TestForge.UI.VSExtension.csproj", "{D9FA2582-28E4-48B3-9602-653FCDD3183B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForge.DataGenerator.XUnit", "TestForge.DataGenerator.XUnit\TestForge.DataGenerator.XUnit.csproj", "{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,18 @@ Global
 		{D9FA2582-28E4-48B3-9602-653FCDD3183B}.Release|arm64.Build.0 = Release|arm64
 		{D9FA2582-28E4-48B3-9602-653FCDD3183B}.Release|x86.ActiveCfg = Release|x86
 		{D9FA2582-28E4-48B3-9602-653FCDD3183B}.Release|x86.Build.0 = Release|x86
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|arm64.Build.0 = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|arm64.ActiveCfg = Release|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|arm64.Build.0 = Release|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
