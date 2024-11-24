@@ -1,0 +1,18 @@
+﻿{
+  "FirstName": {
+    "Description": "First Name",
+    "Values": [
+      "Fred",
+      "Arnold",
+      "Bertrand"
+    ]
+  },
+  "LastName": {
+    "Description": "Liast Name",
+    "Values": [
+      "Smith",
+      "Jones",
+      "Farendorf"
+    ]
+  }
+}

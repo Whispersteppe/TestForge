@@ -1,4 +1,6 @@
-﻿namespace TestForge.DataGenerator.XUnit;
+﻿using System.Reflection;
+
+namespace TestForge.DataGenerator.XUnit;
 
 /// <summary>
 /// Configuration that is passed into TestForgeDataEnumerator
@@ -21,6 +23,11 @@ public class TestForgeDataEnumeratorConfiguration
     /// other parameters to go into the generator
     /// </summary>
     public List<object> Parameters { get; set; } = new List<object>();
+
+    /// <summary>
+    /// information about the method being called during the test
+    /// </summary>
+    public MethodInfo TestMethodInformation { get; set; }
 }
 
 

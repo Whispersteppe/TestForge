@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualBasic;
+using System.Collections;
 
 namespace TestForge.DataGenerator.XUnit;
 
@@ -14,8 +15,10 @@ public class TestForgeDataEnumerator<T> : IEnumerable<object[]>
 
     public TestForgeDataEnumerator(TestForgeDataEnumeratorConfiguration configuration)
     {
-       _configuration = configuration;
+        _configuration = configuration;
     }
+
+
 
     /* things to do:
      *   pass in a GeneratorContext
@@ -33,17 +36,79 @@ public class TestForgeDataEnumerator<T> : IEnumerable<object[]>
     {
 
         GeneratorContext context = new GeneratorContext(_configuration.PrimarySeed);
-        IGenerator<T> generator = GetGenerator(context);
+        //IGenerator<T> generator = GetGenerator(context);
 
         while (_currentCount < _configuration.Iterations)
         {
-
-            T item = generator.Generate(context);
-
-            yield return new object[] { item };
-
             _currentCount++;
+
+            var parameterArray = BuildParameterArray(context.Random.Next(), _currentCount);
+            yield return parameterArray;
+
         }
+    }
+
+    private object[] BuildParameterArray(int seed, int iteration)
+    {
+        List<object> parameterArray = new List<object>();
+
+        GeneratorContext context = new GeneratorContext(seed);
+
+        var paramInfo = _configuration.TestMethodInformation.GetParameters();
+        var generators = GetGenerators();
+
+        foreach (var param in paramInfo)
+        {
+            var foundTypeInDictionary = generators.ContainsKey(param.ParameterType);
+            if (foundTypeInDictionary)
+            {
+                var generator = generators[param.ParameterType](context) as IGenerator;
+
+                var dataElement = generator.Generate(context);
+                parameterArray.Add(dataElement);
+                continue;
+            }
+            if (param.ParameterType == typeof(GeneratorContext))
+            {
+                parameterArray.Add(context);
+                continue;
+            }
+            if (param.Name.Equals("seed", StringComparison.InvariantCultureIgnoreCase))
+            {
+                parameterArray.Add(seed);
+                continue;
+            }
+            if (param.Name.Equals("iteration", StringComparison.InvariantCultureIgnoreCase))
+            {
+                parameterArray.Add(iteration);
+                continue;
+            }
+
+        }
+
+        return parameterArray.ToArray();
+    }
+
+    private Dictionary<Type, Func<GeneratorContext, object>> GetGenerators()
+    {
+        Dictionary<Type, Func<GeneratorContext, object>> generators = new Dictionary<Type, Func<GeneratorContext, object>>();
+        var methodList = GetType().GetMethods();
+        foreach (var method in methodList)
+        {
+            var attributes = method.GetCustomAttributes(false);
+            var testAttribute = attributes.FirstOrDefault(x => x.GetType() == typeof(GeneratorAttribute)) as GeneratorAttribute;
+            if (testAttribute != null)
+            {
+                generators.Add(testAttribute.GeneratorType, x => 
+                            { 
+                                object?[]? xArray = new object?[] { x }; 
+                                var rslt = method.Invoke(this, xArray); 
+                                return rslt; 
+                            });
+            }
+        }
+
+        return generators;
     }
 
     /// <summary>
@@ -64,11 +129,23 @@ public class TestForgeDataEnumerator<T> : IEnumerable<object[]>
     /// <remarks>
     /// this will need to be overridden in any child class.  
     /// </remarks>
-    public virtual IGenerator<T> GetGenerator(GeneratorContext context)
-    {
-        throw new NotImplementedException();
-    }
-
+    //public virtual IGenerator<T> GetGenerator(GeneratorContext context)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
+
+public delegate IGenerator<T> GetGeneratorMethod<T>(GeneratorContext context);
+
+public class GeneratorAttribute : Attribute
+{
+    public Type GeneratorType { get; set; }
+
+    public GeneratorAttribute(Type generatorType)
+    {
+        GeneratorType = generatorType;
+    }
+}
+    
 
 

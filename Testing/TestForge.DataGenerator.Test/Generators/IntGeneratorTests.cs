@@ -1,22 +1,22 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class DateGeneratorTests : TestBase
+public class IntGeneratorTests : TestBase
 {
-    public DateGeneratorTests(ITestOutputHelper output) : base(output)
+    public IntGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
     [Fact]
-    public void DateTest()
+    public void IntTest()
     {
         GeneratorContext context = new GeneratorContext();
-        DateGenerator generator = new DateGenerator();
+        IntGenerator generator = new IntGenerator();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);

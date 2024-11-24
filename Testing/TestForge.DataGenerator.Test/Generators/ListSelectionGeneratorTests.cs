@@ -1,24 +1,24 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class StringGeneratorTests : TestBase
+public class ListSelectionGeneratorTests : TestBase
 {
-    public StringGeneratorTests(ITestOutputHelper output) : base(output)
+    public ListSelectionGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
 
 
     [Fact]
-    public void StringTest()
+    public void ListSelectionTest()
     {
         GeneratorContext context = new GeneratorContext();
-        StringGenerator generator = new StringGenerator();
+        ListSelectionGenerator<int> generator = new ListSelectionGenerator<int>(1, 2, 4, 8, 16);
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);

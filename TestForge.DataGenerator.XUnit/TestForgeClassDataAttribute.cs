@@ -40,7 +40,16 @@ public class TestForgeClassDataAttribute : ClassDataAttribute
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
 
-        IEnumerable<object[]> data = Activator.CreateInstance(Class, _configuration) as IEnumerable<object[]>;
+        TestForgeDataEnumeratorConfiguration clonedConfiguration = new TestForgeDataEnumeratorConfiguration()
+        {
+            ClassType = _configuration.ClassType,
+            Iterations = _configuration.Iterations,
+            Parameters = _configuration.Parameters,
+            PrimarySeed = _configuration.PrimarySeed,
+            TestMethodInformation = testMethod
+        };
+
+        IEnumerable<object[]> data = Activator.CreateInstance(Class, clonedConfiguration) as IEnumerable<object[]>;
 
         if (data == null)
             throw new ArgumentException(
@@ -57,3 +66,4 @@ public class TestForgeClassDataAttribute : ClassDataAttribute
     }
 
 }
+

@@ -1,23 +1,22 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class FloatGeneratorTests : TestBase
+public class ByteGeneratorTests : TestBase
 {
-    public FloatGeneratorTests(ITestOutputHelper output) : base(output)
+    public ByteGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
-
     [Fact]
-    public void FloatTest()
+    public void ByteTest()
     {
         GeneratorContext context = new GeneratorContext();
-        FloatGenerator generator = new FloatGenerator();
+        ByteGenerator generator = new ByteGenerator();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);

@@ -17,7 +17,7 @@ public class TestDataGenerator
         _output = output;
     }
 
-    public void WriteObject(object o)
+    public void WriteObject(object o, string name = "unnamed")
     {
         JsonSerializerSettings settings = new JsonSerializerSettings()
         {
@@ -32,9 +32,12 @@ public class TestDataGenerator
 
     [Theory]
     [TestForgeClassData(typeof(MyTestClass), 25, 0)]
-    public void TestEnumerator(TFTestClass testData)
+    public void TestEnumerator(TFTestClass testData, int seed, int iteration, GeneratorContext context)
     {
-        WriteObject(testData);
+
+        _output.WriteLine($"Seed: {seed} iteration: {iteration}");
+        WriteObject(context, "Context");
+        WriteObject(testData, "Test Data");
     }
 }
 
@@ -44,7 +47,8 @@ public class MyTestClass : TestForgeDataEnumerator<TFTestClass>
     {
     }
 
-    public override IGenerator<TFTestClass> GetGenerator(GeneratorContext context)
+    [Generator(typeof(TFTestClass))]
+    public IGenerator<TFTestClass> GetGenerator(GeneratorContext context)
     {
         var classGenerator = context.Build<TFTestClass>()
             .Property(x => x.FieldString, "string")

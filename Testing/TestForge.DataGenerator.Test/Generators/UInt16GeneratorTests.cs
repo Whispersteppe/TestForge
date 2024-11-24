@@ -1,22 +1,21 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class GuidGeneratorTests : TestBase
+public class UInt16GeneratorTests : TestBase
 {
-    public GuidGeneratorTests(ITestOutputHelper output) : base(output)
+    public UInt16GeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
-    [Fact]
-    public void GuidTest()
+    public void UInt16Test()
     {
         GeneratorContext context = new GeneratorContext();
-        GuidGenerator generator = new GuidGenerator();
+        UInt16Generator generator = new UInt16Generator();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);
@@ -25,4 +24,6 @@ public class GuidGeneratorTests : TestBase
         var rslt3 = generator1.Generate;
         var rslt4 = generator1.GenerateMany(context, 5);
     }
+
+
 }

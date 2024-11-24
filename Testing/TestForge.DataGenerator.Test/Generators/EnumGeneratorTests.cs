@@ -1,22 +1,28 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class CharGeneratorTests : TestBase
+public class EnumGeneratorTests : TestBase
 {
-    public CharGeneratorTests(ITestOutputHelper output) : base(output)
+    public EnumGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
+
+    public enum TestEnum
+    {
+        Value1, Value2, Value3, Value4, Value5, Value6, Value7, Value8, Value9, Value10, Value11,
+    }
+
     [Fact]
-    public void CharTest()
+    public void EnumTest()
     {
         GeneratorContext context = new GeneratorContext();
-        CharGenerator generator = new CharGenerator();
+        EnumGenerator<TestEnum> generator = new EnumGenerator<TestEnum>();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);
@@ -25,4 +31,6 @@ public class CharGeneratorTests : TestBase
         var rslt3 = generator1.Generate;
         var rslt4 = generator1.GenerateMany(context, 5);
     }
+
+
 }

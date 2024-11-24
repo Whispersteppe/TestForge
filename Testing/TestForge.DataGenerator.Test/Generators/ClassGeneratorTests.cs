@@ -3,14 +3,14 @@ using TestForge.DataGenerator.Builder;
 using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// testing of the class generator
 /// </summary>
 public class ClassGeneratorTests : TestBase
 {
-    public ClassGeneratorTests(ITestOutputHelper output) 
+    public ClassGeneratorTests(ITestOutputHelper output)
         : base(output)
     {
 
@@ -132,15 +132,15 @@ public class ClassGeneratorTests : TestBase
 public enum MyEnum
 {
     Value1,
-    Value2, 
-    Value3, 
-    Value4, 
-    Value5, 
-    Value6, 
-    Value7, 
-    Value8, 
-    Value9, 
-    Value10, 
+    Value2,
+    Value3,
+    Value4,
+    Value5,
+    Value6,
+    Value7,
+    Value8,
+    Value9,
+    Value10,
     Value11,
 }
 
@@ -165,6 +165,6 @@ public class TestClass
     public long FieldLong { get; set; }
     public short FieldShort { get; set; }
     public uint FieldUint { get; set; }
-    public UInt16 FieldUint16 { get; set; }
+    public ushort FieldUint16 { get; set; }
     public string FieldSelection { get; set; }
 }

@@ -1,22 +1,22 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class LongGeneratorTests : TestBase
+public class BoolGeneratorTests : TestBase
 {
-    public LongGeneratorTests(ITestOutputHelper output) : base(output)
+    public BoolGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
     [Fact]
-    public void LongTest()
+    public void BoolTest()
     {
         GeneratorContext context = new GeneratorContext();
-        LongGenerator generator = new LongGenerator();
+        BoolGenerator generator = new BoolGenerator();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);

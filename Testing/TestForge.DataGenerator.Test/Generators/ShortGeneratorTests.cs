@@ -1,22 +1,22 @@
 ﻿using TestForge.DataGenerator.BuiltinGenerators;
 using Xunit.Abstractions;
 
-namespace TestForge.DataGenerator.Test;
+namespace TestForge.DataGenerator.Test.Generators;
 
 /// <summary>
 /// tests of the various generators
 /// </summary>
-public class UIntGeneratorTests : TestBase
+public class ShortGeneratorTests : TestBase
 {
-    public UIntGeneratorTests(ITestOutputHelper output) : base(output)
+    public ShortGeneratorTests(ITestOutputHelper output) : base(output)
     {
     }
 
     [Fact]
-    public void UIntTest()
+    public void ShortTest()
     {
         GeneratorContext context = new GeneratorContext();
-        UIntGenerator generator = new UIntGenerator();
+        ShortGenerator generator = new ShortGenerator();
 
         var rslt1 = generator.Generate;
         var rslt2 = generator.GenerateMany(context, 5);

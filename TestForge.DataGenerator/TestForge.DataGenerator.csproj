@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="BuiltinGenerators\FixedListData\FixedData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BuiltinGenerators\FixedListData\FixedData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
 </Project>
