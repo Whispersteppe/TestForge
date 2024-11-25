@@ -25,6 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForge.UI.VSExtension", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForge.DataGenerator.XUnit", "TestForge.DataGenerator.XUnit\TestForge.DataGenerator.XUnit.csproj", "{5A50A01F-47E5-4D88-ABB4-FA8FA18AD9B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{63D50853-3862-4E7D-AD17-FE5EF7596816}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
