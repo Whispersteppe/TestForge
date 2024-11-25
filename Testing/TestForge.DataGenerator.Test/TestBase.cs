@@ -15,6 +15,11 @@ public class TestBase
         _output = output;
     }
 
+    public void WriteLine(string text)
+    {
+        _output.WriteLine(text);
+    }
+
     /// <summary>
     /// write out an object as a formatted json string
     /// </summary>

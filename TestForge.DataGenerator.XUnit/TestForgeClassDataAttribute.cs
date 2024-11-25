@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Microsoft.VisualBasic;
+using System.Globalization;
 using System.Reflection;
 using Xunit;
 
@@ -19,16 +20,9 @@ public class TestForgeClassDataAttribute : ClassDataAttribute
 {
     TestForgeDataEnumeratorConfiguration _configuration;
 
-    public TestForgeClassDataAttribute(Type classType, int interations = 25, int seed = 0,  params object[] constructorParameters) : base(classType)
+    public TestForgeClassDataAttribute(Type classType, TestForgeDataEnumeratorConfiguration configuration) : base(classType)
     {
-        _configuration = new TestForgeDataEnumeratorConfiguration()
-        {
-            ClassType = classType,
-            Iterations = interations,
-            PrimarySeed = seed,
-            Parameters = new List<object>(constructorParameters)
-        };
-
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -39,14 +33,15 @@ public class TestForgeClassDataAttribute : ClassDataAttribute
     /// <exception cref="ArgumentException"></exception>
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
-
         TestForgeDataEnumeratorConfiguration clonedConfiguration = new TestForgeDataEnumeratorConfiguration()
         {
             ClassType = _configuration.ClassType,
             Iterations = _configuration.Iterations,
-            Parameters = _configuration.Parameters,
+            Parameters = new List<object>(_configuration.Parameters),
             PrimarySeed = _configuration.PrimarySeed,
-            TestMethodInformation = testMethod
+            TestMethodInformation = testMethod, 
+            ConfigurationTypeEnum = _configuration.ConfigurationTypeEnum, 
+            SpecificSeeds = new List<int>(_configuration.SpecificSeeds),
         };
 
         IEnumerable<object[]> data = Activator.CreateInstance(Class, clonedConfiguration) as IEnumerable<object[]>;

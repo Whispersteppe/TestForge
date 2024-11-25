@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using FluentAssertions;
+using Newtonsoft.Json;
 using TestForge.DataGenerator;
+using TestForge.DataGenerator.Test;
 using TestForge.DataGenerator.XUnit;
 using Xunit.Abstractions;
 
-namespace TestForge.TestGenerator.Test;
+namespace TestForge.DataGenerator.Test;
 
 /// <summary>
 /// tests of the TestForgeDataEnumerator and TestForgeDataClassAttribute
 /// </summary>
-public class TestDataGenerator
+public class TestDataGenerator : TestBase
 {
-    ITestOutputHelper _output;
 
-    public TestDataGenerator(ITestOutputHelper output)
+    public TestDataGenerator(ITestOutputHelper output) : base(output)
     {
-        _output = output;
     }
 
     public void WriteObject(object o, string name = "unnamed")
@@ -26,28 +26,44 @@ public class TestDataGenerator
         };
 
         var data = JsonConvert.SerializeObject(o, settings);
-        _output.WriteLine(data);
+        WriteLine(data);
     }
 
+    [Fact]
+    public void TestGeneratorAttribute()
+    {
+        GeneratorAttribute attr = new GeneratorAttribute(typeof(MyTestClass), "testname");
+
+        attr.Name.Should().Be("testname");
+        attr.GeneratorType.Should().Be(typeof(MyTestClass));
+    }
 
     [Theory]
-    [TestForgeClassData(typeof(MyTestClass), 25, 0)]
+    [TestForgeIterationDataClass(typeof(MyTestClass), 25, 0)]
     public void TestEnumerator(TFTestClass testData, int seed, int iteration, GeneratorContext context)
     {
+        WriteLine($"Seed: {seed} iteration: {iteration}");
+        WriteObject(context, "Context");
+        WriteObject(testData, "Test Data");
+    }
 
-        _output.WriteLine($"Seed: {seed} iteration: {iteration}");
+    [Theory]
+    [TestForgeSpecificSeedsDataClass(typeof(MyTestClass), 1, 2, 3, 4, 5)]
+    public void TestEnumeratorSpecificSeeds(TFTestClass testData, int seed, int iteration, GeneratorContext context)
+    {
+        WriteLine($"Seed: {seed} iteration: {iteration}");
         WriteObject(context, "Context");
         WriteObject(testData, "Test Data");
     }
 }
 
-public class MyTestClass : TestForgeDataEnumerator<TFTestClass>
+public class MyTestClass : TestForgeDataEnumerator
 {
     public MyTestClass(TestForgeDataEnumeratorConfiguration config) : base(config)
     {
     }
 
-    [Generator(typeof(TFTestClass))]
+    [Generator(typeof(TFTestClass), "MyClassGenerator")]
     public IGenerator<TFTestClass> GetGenerator(GeneratorContext context)
     {
         var classGenerator = context.Build<TFTestClass>()
