@@ -7,7 +7,7 @@ public class GeneratorItem
 {
     public Type GeneratorType { get; set; }
     public string Name { get; set; }
-    public Func<GeneratorContext, object> Generator {get;set;}
+    public Func<object, GeneratorContext, object> Generator {get;set;}
 }
     
 

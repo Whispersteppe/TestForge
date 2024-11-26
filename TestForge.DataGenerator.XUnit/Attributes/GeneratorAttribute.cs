@@ -1,4 +1,4 @@
-﻿namespace TestForge.DataGenerator.XUnit;
+﻿namespace TestForge.DataGenerator.XUnit.Attributes;
 
 /// <summary>
 /// an attribute on a generator on a TestForge enumerator that tells the enumerator that this
@@ -15,6 +15,6 @@ public class GeneratorAttribute : Attribute
         Name = name;
     }
 }
-    
+
 
 

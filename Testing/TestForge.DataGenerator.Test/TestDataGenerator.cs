@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using TestForge.DataGenerator;
 using TestForge.DataGenerator.Test;
 using TestForge.DataGenerator.XUnit;
+using TestForge.DataGenerator.XUnit.Attributes;
 using Xunit.Abstractions;
 
 namespace TestForge.DataGenerator.Test;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Reflection;
+using TestForge.DataGenerator.XUnit.Attributes;
 
 namespace TestForge.DataGenerator.XUnit;
 
@@ -27,13 +28,17 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
 
         GeneratorContext context = new GeneratorContext(_configuration.PrimarySeed);
 
+        var paramList = _configuration.TestMethodInformation.GetParameters().ToList();
+
+        ParameterArrayGenerator paramGenerator = new ParameterArrayGenerator(paramList, this);
+
         if (_configuration.ConfigurationTypeEnum == ConfigurationTypeEnum.IterationAndPrimarySeed)
         {
             while (_currentCount < _configuration.Iterations)
             {
                 _currentCount++;
 
-                var parameterArray = BuildParameterArray(context.Random.Next(), _currentCount);
+                var parameterArray = paramGenerator.BuildParameterArray(context.Random.Next(), _currentCount);
                 yield return parameterArray;
             }
         }
@@ -43,7 +48,7 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
             {
                 _currentCount++;
 
-                var parameterArray = BuildParameterArray(specificSeed, _currentCount);
+                var parameterArray = paramGenerator.BuildParameterArray(specificSeed, _currentCount);
                 yield return parameterArray;
             }
         }
@@ -58,8 +63,24 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
         return this.GetEnumerator();
     }
 
-    List<ParameterInfo>? paramInfo = null;
-    List<GeneratorItem>? generators = null;
+}
+
+
+public class ParameterArrayGenerator
+{
+    List<ParameterInfo>? _paramInfo = null;
+    List<GeneratorItem>? _generators = null;
+
+    object _classEnumerator;
+
+    public ParameterArrayGenerator(List<ParameterInfo> paramInfo, object classEnumerator)
+    {
+
+        _generators = GetGenerators(classEnumerator.GetType());
+        _paramInfo = paramInfo;
+        _classEnumerator = classEnumerator;
+
+    }
 
     /// <summary>
     /// builds an array of parameters to send to the test
@@ -68,29 +89,28 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
     /// <param name="iteration"></param>
     /// <returns></returns>
     /// <exception cref="InvalidDataException"></exception>
-    private object[] BuildParameterArray(int seed, int iteration)
+    public object[] BuildParameterArray(int seed, int iteration)
     {
+
         List<object> parameterArray = new List<object>();
-        paramInfo ??= new List<ParameterInfo>(_configuration.TestMethodInformation.GetParameters());
-        generators ??= GetGenerators();
 
 
         GeneratorContext context = new GeneratorContext(seed);
 
-        foreach (var param in paramInfo)
+        foreach (var param in _paramInfo)
         {
-            if (generators.FirstOrDefault(x=>x.GeneratorType == param.ParameterType) != null)
+            if (_generators.FirstOrDefault(x => x.GeneratorType == param.ParameterType) != null)
             {
-                var generator = generators.First(x => x.GeneratorType == param.ParameterType).Generator(context) as IGenerator;
+                var generator = _generators.First(x => x.GeneratorType == param.ParameterType).Generator(_classEnumerator, context) as IGenerator;
 
                 var dataElement = generator.Generate(context);
                 parameterArray.Add(dataElement);
                 continue;
             }
 
-            if (generators.FirstOrDefault(x => x.Name == param.Name) != null)
+            if (_generators.FirstOrDefault(x => x.Name == param.Name) != null)
             {
-                var generator = generators.First(x => x.Name == param.Name).Generator(context) as IGenerator;
+                var generator = _generators.First(x => x.Name == param.Name).Generator(_classEnumerator, context) as IGenerator;
 
                 var dataElement = generator.Generate(context);
                 parameterArray.Add(dataElement);
@@ -123,10 +143,10 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
     /// retrieves a set of generators from this or a child class
     /// </summary>
     /// <returns></returns>
-    private List<GeneratorItem> GetGenerators()
+    private List<GeneratorItem> GetGenerators(Type dataClassEnumeratorType)
     {
         List<GeneratorItem> generators = new List<GeneratorItem>();
-        var methodList = GetType().GetMethods();
+        var methodList = dataClassEnumeratorType.GetMethods();
         foreach (var method in methodList)
         {
             var attributes = method.GetCustomAttributes(false);
@@ -137,20 +157,18 @@ public class TestForgeDataEnumerator : IEnumerable<object[]>
                 {
                     Name = testAttribute.Name,
                     GeneratorType = testAttribute.GeneratorType,
-                    Generator = x =>
-                            {
-                                object?[]? xArray = new object?[] { x };
-                                var rslt = method.Invoke(this, xArray);
-                                return rslt;
-                            }
+                    Generator = (xClass, xContext) =>
+                    {
+                        object?[]? xArray = new object?[] { xContext };
+                        var rslt = method.Invoke(xClass, xArray);
+                        return rslt;
+                    }
                 });
             }
         }
 
         return generators;
     }
-
-
 }
     
 

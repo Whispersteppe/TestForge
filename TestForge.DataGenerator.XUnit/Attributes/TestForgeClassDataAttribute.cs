@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using Xunit;
 
-namespace TestForge.DataGenerator.XUnit;
+namespace TestForge.DataGenerator.XUnit.Attributes;
 
 /// <summary>
 /// extension of the ClassDataAttribute to call create an enumerator around a TestForgeDataEnumerator
@@ -39,8 +39,8 @@ public class TestForgeClassDataAttribute : ClassDataAttribute
             Iterations = _configuration.Iterations,
             Parameters = new List<object>(_configuration.Parameters),
             PrimarySeed = _configuration.PrimarySeed,
-            TestMethodInformation = testMethod, 
-            ConfigurationTypeEnum = _configuration.ConfigurationTypeEnum, 
+            TestMethodInformation = testMethod,
+            ConfigurationTypeEnum = _configuration.ConfigurationTypeEnum,
             SpecificSeeds = new List<int>(_configuration.SpecificSeeds),
         };
 
