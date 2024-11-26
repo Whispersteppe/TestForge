@@ -24,8 +24,9 @@ public class TestBase
     /// write out an object as a formatted json string
     /// </summary>
     /// <param name="o"></param>
-    public void WriteObject(object o)
+    public void WriteObject(object o, string name = "unnamed")
     {
+        _output.WriteLine(name);
         JsonSerializerSettings settings = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

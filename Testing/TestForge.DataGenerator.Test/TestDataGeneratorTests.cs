@@ -11,23 +11,11 @@ namespace TestForge.DataGenerator.Test;
 /// <summary>
 /// tests of the TestForgeDataEnumerator and TestForgeDataClassAttribute
 /// </summary>
-public class TestDataGenerator : TestBase
+public class TestDataGeneratorTests : TestBase
 {
 
-    public TestDataGenerator(ITestOutputHelper output) : base(output)
+    public TestDataGeneratorTests(ITestOutputHelper output) : base(output)
     {
-    }
-
-    public void WriteObject(object o, string name = "unnamed")
-    {
-        JsonSerializerSettings settings = new JsonSerializerSettings()
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
-
-        var data = JsonConvert.SerializeObject(o, settings);
-        WriteLine(data);
     }
 
     [Fact]
