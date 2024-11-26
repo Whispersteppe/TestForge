@@ -55,6 +55,17 @@ public class TestDataGenerator : TestBase
         WriteObject(context, "Context");
         WriteObject(testData, "Test Data");
     }
+
+    [Theory]
+    [TestForgeSpecificSeedsDataClass(typeof(MyTestClass), 1, 2)]
+    [TestForgeSpecificSeedsDataClass(typeof(MyTestClass), 3)]
+    [TestForgeSpecificSeedsDataClass(typeof(MyTestClass), 4, 5)]
+    public void TestEnumeratorSpecificSeedsMultipleSeedClasses(TFTestClass testData, int seed, int iteration, GeneratorContext context)
+    {
+        WriteLine($"Seed: {seed} iteration: {iteration}");
+        WriteObject(context, "Context");
+        WriteObject(testData, "Test Data");
+    }
 }
 
 public class MyTestClass : TestForgeDataEnumerator
