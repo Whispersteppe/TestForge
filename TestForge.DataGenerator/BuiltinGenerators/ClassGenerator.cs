@@ -56,7 +56,7 @@ public class ClassGenerator<T> : IGenerator<T> where T : class
     /// <returns></returns>
     public T Generate(GeneratorContext context)
     {
-        GeneratorContext childContext = context.SpawnChildContext();
+        GeneratorContext childContext = (GeneratorContext)context.Clone();
 
         T instance;
         if (_constructorFunction != null)

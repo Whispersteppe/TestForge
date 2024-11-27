@@ -6,21 +6,43 @@ namespace TestForge.DataGenerator;
 /// <summary>
 /// a list of named generators
 /// </summary>
-public class NamedGenerators : Dictionary<string, IGenerator>
+public class NamedGenerators : Dictionary<string, IGenerator>, ICloneable
 {
+    public object Clone()
+    {
+        var cloned = new NamedGenerators();
+
+        foreach (var key in Keys)
+        {
+            cloned[key] = this[key];
+        }
+
+        return cloned;
+    }
 }
 
 /// <summary>
 /// a list of context data
 /// </summary>
-public class ContextData : Dictionary<string, object>
+public class ContextData : Dictionary<string, object>, ICloneable
 {
+    public object Clone()
+    {
+        var cloned = new ContextData();
+
+        foreach(var key in Keys)
+        {
+            cloned[key] = this[key];
+        }
+
+        return cloned;
+    }
 }
 
 /// <summary>
 /// the context of the generator
 /// </summary>
-public class GeneratorContext
+public class GeneratorContext : ICloneable
 {
     private readonly Random _random;
     public NamedGenerators Generators { get; private set; } = new NamedGenerators();
@@ -43,27 +65,6 @@ public class GeneratorContext
     }
 
     /// <summary>
-    /// create a child context based on this context
-    /// </summary>
-    /// <returns></returns>
-    public GeneratorContext SpawnChildContext()
-    {
-        GeneratorContext childContext = new GeneratorContext(Random.Next());
-
-        foreach(var key in Generators.Keys)
-        {
-            childContext.Generators[key] = Generators[key];
-        }
-
-        foreach(var key in Data.Keys)
-        {
-            childContext.Data[key] = Data[key];
-        }
-
-        return childContext;
-    }
-
-    /// <summary>
     /// creates a class builder
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -82,5 +83,19 @@ public class GeneratorContext
         {
             return _builtin;
         }
+    }
+
+    /// <summary>
+    /// clone the current context
+    /// </summary>
+    /// <returns></returns>
+    public object Clone()
+    {
+        GeneratorContext childContext = (GeneratorContext)MemberwiseClone();
+
+        childContext.Generators = (NamedGenerators)Generators.Clone();
+        childContext.Data = (ContextData)Data.Clone();
+
+        return childContext;
     }
 }
